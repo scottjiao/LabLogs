@@ -1,6 +1,7 @@
 
 
-#Cifar10
+#Cifar10 with grid washing method.
+======================================
 
 name | ResNet152 |  DenseNet201 |  MobileNetV2  |  VGG |    MLP    
  :-: | :-: | :-: | :-: |  :-: | :-:
