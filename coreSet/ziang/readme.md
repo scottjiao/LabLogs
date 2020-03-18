@@ -3,7 +3,7 @@
 #Cifar10
 
 name | ResNet152 |  DenseNet201 |  MobileNetV2  |  VGG |    MLP    
- - | -  | -  |  -  |  -  | -  
+ :-: | :-: | :-: | :-: |  :-: | :-:
  1% |  X | X  |  X  |  X  |  X |
  5% | X  | X  |  X  |  X  |  X |
  10% | X  | X  |  X  | X   | X  |
