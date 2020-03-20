@@ -1,0 +1,286 @@
+\appendix
+
+\section{Proof of Lemma~\ref{lemma:partial}}\label{app1}
+
+\begin{proof} 
+We first construct a partial coloring $\chi^1$ with discrepancy
+$\disc_p^\alpha(n)$. Now there are only $(1-\alpha)n$ points that have not been
+colored. We then color these points using a partial coloring $\chi^2$ with discrepancy
+$\disc_p^\alpha((1-\alpha)n)$, and after this there are only $(1-\alpha)^2n$ points
+left uncolored. We repeat this construction until the number of uncolored points
+becomes trivially small, say smaller than a suitable constant. Let $\ell$ be the number
+of iterations, then $\ell=O( \log n)$ since $\alpha$ is a constant. Finally we set
+$\chi=\sum_{i=1}^\ell \chi^i$ to be our full coloring. Note that $\chi$ is a valid
+coloring as each point is colored only once. The discrepancy of $\chi$ can be bounded
+as follows. 
+$$m^{1/p}\disc(n)\le ||A\chi||_p\le \sum_{i=1}^\ell ||A\chi^i||_p\le \ell
+m^{1/p}\cdot\disc_p^\alpha(n)= m^{1/p}\cdot O(\log n \cdot \disc_p^\alpha(n)).$$
+
+When $\disc_p^\alpha(n) = \poly(n)$, then
+$$\sum_{i=1}^\ell ||A\chi^i||_p \le \sum_{i=1}^\ell \disc_p^\alpha((1-\alpha)^i n) = O(\disc_p^\alpha (n)).$$
+\end{proof}
+
+\section{Analysis of the Algorithm}\label{app2}
+It should be clear that the total size of the $k$ subsets is $n/2^\lambda$, so the weight
+of each point is $2^\lambda$.  We will prove that, with at least constant probability, for
+every $r\in \mathcal{R}$, we have
+$$\left|\sum_{i=1}^k( 2^\lambda|I_i^\lambda\cap r|-|I_i\cap r|)\right|\le \eps n.$$
+
+Fix some range $r\in \mathcal{R}$.  For $1\le j\le \lambda$, let
+$\Delta_i^j=2^{j-1}(2|I_i^j\cap r|-|I_i^{j-1}\cap r|)$.  Then the final error of using
+$I_i^\lambda$ to approximate $I_i$ on $r$ is
+\begin{equation}
+  \label{eq:4}
+2^\lambda|I_i^\lambda\cap r|-|I_i\cap r| = \sum_{j=1}^\lambda \Delta_i^j.
+\end{equation}
+Sum up \eqref{eq:4} over $i$, the total error is $\Delta=\sum_i\sum_j \Delta_i^j$.
+
+Note that these $\Delta_i^j$'s may not be independent.  But conditioned on the event
+$I_i^{j-1}=S$ for any set $S$, it is easy to see that $\E\left[2|I_i^j\cap r| \:{\big
+    |}\:I_i^{j-1}=S\right]= |S\cap r| $, so $\E[\Delta_i^j \mid I_i^{j-1}=S]=0$.  Thus if
+we order the $\Delta_i^j$'s as $\Delta_1^1, \dots, \Delta_1^\lambda, \Delta_2^1, \dots,
+\Delta_2^\lambda, \dots, \Delta_k^1, \dots, \Delta_k^\lambda$, and let $Y_\ell$ be the
+partial sum of first $\ell$ terms of this sequence, then the sequence $Y_0, Y_1,\dots,
+Y_{k\lambda}$ form a martingale.  
+
+Next, we show that $|\Delta| = |Y_{k\lambda}| > \eps n$ with small probability.  
+\begin{lemma}[Azuma-Hoeffding]
+  Let $Y_0,\cdots, Y_m$ be a martingale such that $|Y_\ell-Y_{\ell-1}|\le c_\ell$. Then,
+  for all $\beta>0$,
+$$\Pr[|Y_m-Y_0|\ge \beta]\le 2e^{-\beta^2/(2\sum_{\ell=1}^{m}c_\ell^2)}.$$
+\end{lemma}
+
+To use the Azuma-Hoeffding inequality, we need an upper bound $c_\ell$ on each $|Y_\ell -
+Y_{\ell-1}| = |\Delta_i^j| = 2^{j-1}\left|2 |I_i^j \cap r| - |I_i^{j-1} \cap r|\right|$
+for some $i,j$.  Recall that $I_i^j$ is the subset of $I_i^{j-1}$ with the same color, so
+$\left|2 |I_i^j \cap r| - |I_i^{j-1} \cap r|\right|$ is exactly the discrepancy of the
+coloring on $r$.  By the definition of discrepancy, we have $|\Delta_i^j| \le
+2^{j-1}\disc(|I_i^{j-1}|)$.  Let $c_{ij} = 2^{j-1}\disc(|I_i^{j-1}|)$, and let
+$D=\sum_i\sum_j c_{ij}^2$. For each $i\in[k]$, let $D_i=\sum_{j=1}^\lambda
+c_{ij}^2$.  We have $D=\sum_i D_i$ and
+$$D_i=\sum_{j=1}^\lambda c_{ij}^2\le \sum_{j=1}^\lambda \left(2^{j-1}\cdot
+  \disc(|I_i^{j-1}|)\right)^2= \sum_{j=1}^\lambda\left(2^{j-1}\cdot
+  \disc(n_i/2^{j-1})\right)^2.$$
+Since we assume $\disc(n)\le O(\sqrt{n})$, the above sum
+is bounded by the last term: $$D_i\le 2\left(2^{\lambda-1}\cdot
+  \disc(n_i/2^{\lambda-1})\right)^2.$$
+We further assume that $(\disc(n))^2$ is a concave
+function, which is true for all natural range spaces. Thus by Jenson's inequality, we have
+$$D\le 2^{2\lambda-1}\cdot k\left( \disc(n/(k2^{\lambda-1}))\right)^2.$$
+Then by the Azuma-Hoeffding inequality, 
+$$\Pr[|Y_{k\lambda}|\ge\eps n] \le 2e^{-(\eps n)^2/(2D)}\le 2\exp\left(-\frac{(\eps
+    n)^2}{2^{2\lambda-1}\cdot k\left( \disc(n/(k2^{\lambda-1}))\right)^2}\right).$$
+Set $t=\frac{n}{k2^{\lambda-1}}$.  To make this probability smaller than some
+$\delta'$, we only need to set $t$ such that
+$$\frac{t}{\disc(t)}\ge\Omega\left(\frac{1}{\eps\sqrt{k}}\cdot
+  \sqrt{\log\frac{1}{\delta'}}\right).$$ 
+The number of iterations, $\lambda$, is then determined by the value of $t$.  The
+communication cost is simply the total size of the $k$ subsets $\sum_{i=1}^k
+n_i/2^{\lambda}=tk$. 
+
+The above analysis is for any fixed $r\in \mathcal{R}$, while there are infinitely many
+ranges in $\mathcal{R}$ on which we need to ensure the accuracy of the estimates.  But it
+is well known that, among all the ranges, only $\poly(1/\eps)$ of them are different
+enough that one needs to consider, if the range space has bounded VC-dimension \cite{vc}.
+Thus, it is sufficient to set $\delta'=\poly(\eps)\cdot \delta$ and apply a union bound.
+
+\section{Proof of the Deterministic Lower Bound via $\ell_1$-Discrepancy} \label{app3}
+\begin{lemma}\label{lemma:num}
+Let $\rho=B_1\times B_2\cdots \times B_k$ be a rectangle of size no less than $2^{tk/2}$, and let $U=\{i: |B_i|\ge 2^{ t/4}\}$, then $|U|\ge  k/3$.
+\end{lemma} 
+\begin{proof}
+$U$ is the same as $\{i:\log |B_i|\ge { t/4}\}$. By our assumption, we have
+$$\sum_{i=1}^k \log |B_i| = \log |\rho| \ge  tk/2.$$
+Because for each $i$, we have $\log |B_i|\le t$, by an averaging argument, we conclude that $|U|\ge  k/3$.
+\end{proof}
+
+Now we consider a player $i$ in $U$, that is $|B_i|\ge 2^{t/4}$. It can be shown that there
+are two vectors $x, y$ in $B_i$ with Hamming distance no less than $t/64$. 
+
+\begin{lemma}\label{lemma:hd}
+  If $|B_i|\ge 2^{t/4}$, then for any $x\in B_i$, it hold for almost all vectors $y\in B_i$ that $HD(x, y)\ge t/64$, where $HD(x,y)$ is the hamming
+    distance between $x$ and $y$.
+\end{lemma} 
+\begin{proof}
+We will use the
+following bound for the sum of the first $z$ binomial coefficients.
+\begin{equation}
+\sum_{i=0}^z {n\choose i} \le \left( \frac{en}{z} \right)^z. \label{eq:bino}
+\end{equation}
+
+The total number of different $y$'s with $HD(x,y)\le { t/64}$ is 
+$$\sum_{i=0}^{{t/64}} {t\choose i} \le \left( \frac{en}{{ t/64}} \right)^{{ t/64}}< 2^{t/8}.$$ 
+The lemma follows because $|B_i|\ge 2^{t/4}>2^{t/8}$.
+\end{proof}
+
+Let $A$ be the incidence matrix of $(Y,\mathcal{R}_{|Y})$ with $|Y|=t$,
+$|\mathcal{R}_{|Y}|=m$.
+
+\begin{lemma}\label{lemma:err}
+  Let $\rho=B_1\times B_2\cdots \times B_k$ be any rectangle, then the approximation error
+  in the rectangle $\rho$ is at least
+$$\frac{1}{m}\cdot\sum_{i=1}^k||A(x_i-y_i)||_1 ,$$
+for any $x_i,y_i\in B_i$, $i=1,2,\cdots,k$ .
+\end{lemma} 
+\begin{proof}
+  Define $d_{i}=A(x_i-y_i)$.  The $j$th entry of $d_i$ is $d_{i,j}=|x_i\cap
+  r_j|-|y_i\cap r_j|$.  Let $E_j=\sum_{i=1}^k |d_{i,j}|$, then
+  $$\max_{1\le j\le m} E_j\ge \frac{1}{m}\cdot \sum_{j=1}^m E_j=
+  \frac{1}{m}\cdot\sum_{j=1}^m \sum_{i=1}^k
+  |d_{i,j}|=\frac{1}{m}\cdot\sum_{i=1}^k||A(x_i-y_i)||_1.$$
+  W.l.o.g., we assume
+  $E_1=\max_i E_i$, and we next show that the approximation error of $\rho$ is at least
+  $E_1$. It is sufficient to find two inputs $(z_1,\cdots, z_k),(z'_1,\cdots, z'_k)$ with
+  $z_i, z_i'\in B_i$ for every $i$, such that
+\begin{equation}
+\left|\sum_{i=1}^k|z_i\cap r_1|-\sum_{i=1}^{k}|z_i'\cap r_1|\right|\ge E_1. \label{eq:E1}
+\end{equation}
+
+We set 
+\begin{eqnarray*}
+\begin{array}{l}
+z_i  =  \left\{
+  \begin{array}{rl}
+   x_i, & \text{if} \quad (Ax_i)_1\ge (Ay_i)_1; \\
+   y_i, & \text{otherwise},
+  \end{array}
+  \right.
+\end{array}
+\end{eqnarray*}
+and set $z_i'$ in the opposite way. It is easy to check that these two inputs satisfy
+\eqref{eq:E1}, then the lemma follows.
+\end{proof}
+
+From Lemma \ref{lemma:hd}, we know for each $i\in U$, we can find a pair $x_i,y_i\in B_i$ with $HD(x_i,y_i)\ge t/64$. As a result, for each $i\in U$, we can view $(x_i-y_i)\in \{-1,0,+1\}^t$ as a $1/64$-partial coloring for $Y$, then it directly follows from Lemma \ref{lemma:err} that
+\begin{corollary}\label{cor1}
+  Let $\rho=B_1\times B_2\cdots \times B_k$ be any rectangle of size no less than
+  $2^{tk/2}$, then the approximation error in $\rho$ is at least
+$$\frac{k}{3}\cdot \disc_1^{1/64}(Y, \mathcal{R}).$$ 
+\end{corollary}
+\begin{proof}
+\begin{eqnarray*}
+\frac{1}{m}\cdot\sum_{i=1}^k||A(x_i-y_i)||_1 &\ge& \frac{1}{m}\cdot\sum_{i\in U}||A(x_i-y_i)||_1 \\
+&\ge&\sum_{i\in U}\disc_1^{1/64}(Y,\mathcal{R})\\
+&\ge& \frac{k}{3}\cdot \disc_1^{1/64}(Y,\mathcal{R})
+\end{eqnarray*}
+\end{proof}
+
+Since the total number of points in any input is $n\le tk$, a valid $\frac{1}{3t}
+\disc_1^{1/64}(Y,\mathcal{R})$-approximation only allows error less than $\frac{k}{3}\cdot
+\disc_1^{1/64}(Y,\mathcal{R})$. So the above lemma shows that the partitioning $|P|$
+produced by any correct protocol computing a $\frac{1}{3t}
+\disc_1^{1/64}(Y,\mathcal{R})$-approximation cannot contain a rectangle of size more than
+$2^{tk/2}$, which implies that the communication cost is at least $\log|P|=\Omega(tk)$
+bits.  As we pick $Y$ to maximize the discrepancy of $(Y, \mathcal{R})$, so
+$\disc_1^{1/64}(Y,\mathcal{R})=\disc_1^{1/64}(t)$, then we have proved our deterministic
+lower bound.
+
+
+
+
+
+\section{Dealing with Small $k$}\label{app:smallk}
+Here we briefly describe how to deal with the case when $k<1/\eps$. Let $(Y,\mathcal{R})$ and $(X,\mathcal{R})$ be defined as above. Given any protocol $\Pi$ computing an $\eps$-approximation of $(X,\mathcal{R})$, we modify it as follows. We first run the protocol $\Pi$, and when it finishes, each player deterministically computes an $(\eps k/2)$-approximation of its own set $x_i$ and sends it to the coordinator. We use $\Pi'$ to denote this new protocol, clearly it is correct if $\Pi$ is correct. If the cost of $\Pi$ is $\ell$, the cost of $\Pi'$ is at most $\ell+k\cdot \app(\eps k/2)$. Suppose there is a rectangle $\rho=B_1\times B_2\times \cdots \times B_k$ of size at least $2^{tk/2}$ in $\Pi'$. Our new protocol has the property that for any $x_1,x_2\in B_i$, $|A(x_1-x_2)|_\infty \le \eps k t $, since a deterministic local $\eps k/2$-approximation was computed and sent to the coordinator. This means the range of the random variable $Y_{i,j}$ has size at most $\eps kt$, i.e., there is a fixed number $\phi_i$ such that $0\le Y_{i,j}-\phi_i\le \eps k t$. We now set $Y_{i, j}' = \frac{Y_{i,j}-\phi_i}{\eps k t}$, then it is in the range $[0,1]$, and put $Y'_j=\sum_i Y'_{i,j}$. Observing that $\var[Y'_{i,j}]=\var[Y_{i,j}]/(\eps kt)^2$, we can apply the same arguments as in the proof of Lemma \ref{lemma:rectanti}, except now $w=\eps k t$, and get an analogous result as follows:
+If $\var[Y_j]=\frac{k}{18}\cdot (\disc_2^{1/64}(Y,\mathcal{R}))^2\ge 40000(\eps k t)^2$, then 
+$$\Pr[Y_j\ge E[Y_j]+ \sqrt{k}\cdot \disc_2^{1/64}(Y,\mathcal{R})] \ge c$$
+and 
+$$ \Pr[Y_j\le E[Y_j]- \sqrt{k}\cdot \disc_2^{1/64}(Y,\mathcal{R})] \ge c,$$
+for some sufficiently small constant $c>0$. Thus the same result as Lemma \ref{lemma:klarge} follows. Now, given $\eps, k$, we set $t$ such that $\frac{t}{\disc_2^{1/64}(t)} = \frac{1}{\eps \sqrt{k\beta}}$. Then in order to satisfy the variance requirement that $\frac{k}{18}\cdot (\disc_2^{1/64}(Y,\mathcal{R}))^2\ge 40000(\eps k t)^2$, we only need to set $\beta$ to be a large enough constant
+\section{Proof of Theorem \ref{thm:rand2}} \label{app:proofrand2}
+Here we introduce some basic definitions from information theory, see \cite{cover2006} for a comprehensive introduction. 
+For any random variables $X,Y,Z$, we use $H(X|Y)$ to denote the conditional entropy of $X$ given $Y$, and $I(X,Y|Z)=H(X|Z)-H(X|Y,Z)$ to denote the conditional mutual information between $X$ and $Y$ given $Z$. 
+Recall the randomized $k$-party $1$-bit problem, which is defined as follows. The input for
+each player is a  bit $y_i$, and the goal is to determine whether the sum $\sum_{i=1}^k
+y_i$ is greater than $k/2+\sqrt{k}/2$ or smaller than $k/2-\sqrt{k}/2$. We need the following result.
+\begin{lemma}[\cite{WZ12}]\label{lemma:1bit}
+Let $P$ be the transcript of any randomized protocol solving the $1$-bit problem in the
+blackboard model with probability $3/4$, then we have
+$$I(Y_1,\cdots,Y_k; P|R)=\Omega(k),$$
+where the mutual information is measured under
+uniform input distribution, and $R$ is the public randomness used in $P$.
+\end{lemma}
+
+As before, we fix a range space $(Y,\mathcal{R})$, where $|Y|=t$ and
+$\mathcal{R}=\{r_1,\cdots, r_m\}$.  The input of each player $i$ is a subset $x_i\subseteq
+Y$, and we also use $x_i\in\{0,1\}^t$ and $r_\ell\in\{0,1\}^t$ as vectors. We want to
+compute an $\eps$-approximation of the multiset $x=x_1+ \cdots+ x_k$. We
+further define $z$ to be an $t$-dimensional vector such that $z_j=\sum_i x_{i,j}$ for each
+$j\in [t]$. 
+
+Let $\Pi$ be a randomized protocol which computes an $\eps/2$-approximation with probability $0.9$, where $\eps\le\frac{\rdisc^{1/6}(Y, \mathcal{R})}{2\sqrt{k}t}$. We will show that, the information cost of $\Pi$ measured under the uniform distribution is $\Omega(tk)$, which is $t$ times the information cost of the $1$-bit problem. To do so, we show that, by running $\Pi$, we can recover $\Omega(t)$ $z_j$'s within additive error
+$\sqrt{k}$, which implies that $\Pi$ actually solves $\Omega(t)$ independent instances of the $1$-bit problem. This is quite counter-intuitive, because the error of $\Pi$ is $O(\eps t k)=O(\sqrt{k}\cdot \rdisc^{1/6}(t))$, which is too large.  It seems that if we want to recover the $z_j$'s within additive error $\sqrt{k}$, we can only set $t$ to be a constant, which would not give us a good lower bound. Our idea is to use discrepancy. We show that if, on the contrary, $\Pi$ cannot recover a constant fraction of the $z_j$'s within error $\sqrt{k}$, then the error will be amplified through discrepancy. More precisely, there will be at least one range $r\in \mathcal{R}$, for which the error made by $\Pi$ is large than $\eps t k$, which contradicts the correctness of $\Pi$.
+To formalize the above intuition, we first give a reduction that uses $\Pi$ to solve the $1$-bit problem by embedding the input instance to a random position in $Y$. Then we use the symmetry of our reduction to prove the correctness of this reduction. As the embedding position is random and there are $t$ positions, we can then use information-complexity arguments to prove that the information cost of $\Pi$ is at least $\Omega(t)$ times that of the $1$-bit problem.
+
+ Let $\xi$ be an $m$-dimensional vector such that $\xi_\ell=\sum_{i=1}^k |r_\ell
+\cap x_i|$ for each $r_\ell\in \mathcal{R}$. Given input $y_1,\cdots, y_k$ in the 1-bit problem, which are drawn from uniform distribution ($Y_1, \cdots, Y_k$ are the corresponding random variables).  Our protocol for solving the $1$-bit problem using $\Pi$ is as follows.
+
+(1) The players use public randomness to sample an element $j\in [t]$, and each player $i$ sets $x_{i,j}=y_i$.
+(2) For each $j'\neq j$, each player $i$ sets $x_{i,j'}=0$ or $1$ with equal probability. Note that this only needs private randomness.
+(3) All  players run together the protocol $\Pi$ on the input they have just constructed, and the coordinator gets an $\eps/2$-approximation.
+(4) For each $\ell\in[m]$, the coordinator uses the $\eps/2$-approximation computed to recover a value $\xi_\ell'$ for each $\ell$, which is an approximation of $\xi_\ell$.
+(5) The coordinator then computes a $t$-dimensional vector $z'$ that is compatible with $\xi'$, i.e., $||Az'-\xi'||_{\infty}\le \eps tk/2$.
+(6) Answer $1$ if $z'_j\ge k/2$, otherwise $0$.
+
+\begin{lemma}\label{lemma:correctness}
+If $\Pi$ is a randomized protocol which computes an $\eps/2$-approximation with probability $0.9$, where $\eps\le\frac{\rdisc^{1/6}(Y, \mathcal{R})}{2\sqrt{k}t}$, then the above protocol correctly solves the $1$-bit problem with constant probability, and the information cost of $\Pi$ is at least $\Omega(tk)$ under uniform distribution.
+\end{lemma}
+
+\begin{proof}
+We first show the correctness of the protocol.  Suppose the $\eps/2$-approximation computed by $\Pi$ is correct, which happens with probability $0.9$. Then both $||Az-\xi'||_{\infty}\le \eps tk/2$ and $||Az'-\xi'||_{\infty}\le \eps tk/2$. By triangle inequality, we have 
+$$||A(z-z')||_{\infty} = ||Az-Az'||_{\infty}\le \eps tk.$$
+We claim that for $5/6$ fraction of $j\in [t]$, it holds that $|z_j-z'_j|\le \sqrt{k}/2$. Suppose it is not true, then $2(z-z')/\sqrt{k}$ is a $1/6$-heavy coloring, and 
+$$||A(z-z')||_{\infty}=\frac{\sqrt{k}}{2}||2A(z-z')/\sqrt{k}||_{\infty}>\frac{\sqrt{k}}{2}\cdot \rdisc^{1/6}(Y,\mathcal{R})\ge\eps tk,$$
+which is a contradiction.
+
+One important property of our reduction is that the input constructed for $\Pi$ is totally symmetric. In other words, although we sample $j$ first, we can apply the principle of deferred decision, and reveal the value of $j$ after $z'$ is computed. Thus, with probability $5/6$, we have $|z_j-z'_j|\le \sqrt{k}/2$. Conditioned on this happening, $z_j\ge k/2+\sqrt{k}/2$ implies $z'_j\ge k/2$, which shows that the output of the protocol is correct. In all, the error probability of the protocol is at most $0.1+0.9\cdot 1/6=1/4$.
+
+Next we analysis of the information cost of $\Pi$.  We need the following property of
+mutual information.  \vskip 2pt
+\begin{proposition}[see \cite{cover2006}]
+{\em Super-additivity of mutual information:} If $X^1, \cdots, X^t$ are conditional independent given $Z$, then 
+$I(X^1, \cdots,  X^t; Y|Z)\ge \sum_{i=1}^t I(X^i; Y|Z)$.
+\end{proposition}
+
+
+We use $P$ to denote the above protocol for $1$-bit. Let $J,Y_i, X_i$ be the corresponding random variable of $j, y_i, x_i$.  The public randomness used in $P$ is $J$ and $R$, where $R$ is the public randomness of $\Pi$. By Lemma \ref{lemma:1bit}, we have
+\begin{eqnarray}
+\Omega(k) &=& I(Y_1,\cdots, Y_k; P|J,R) \nonumber \\
+&=&\sum_{j=1}^t\Pr[J=j] \cdot I(Y_1,\cdots, Y_k; P|J=j,R) \nonumber \\
+& = &\frac{1}{t}\cdot \sum_{j=1}^t I(X_{1,j},\cdots, X_{k,j}; \Pi|R) \label{eq:reduction}\\
+&\le& \frac{1}{t}\cdot I(X_1,\cdots, X_k; \Pi|R). \label{eq:sumMI}
+\end{eqnarray}
+The equality \eqref{eq:reduction} holds because the joint distributions $(Y_1,\cdots, Y_k, P, R|J=j)$ and $(X_{1,j},\cdots, X_{k,j}, \Pi, R)$ are the same by our construction. Inequality \eqref{eq:sumMI} holds because the tuples $(X_{1,j},\cdots, X_{k,j})$ for $j\in [q]$ are conditionally independent given $R$, and we apply the supper-additivity of mutual information. So we have shown the information cost, $I(X_1,\cdots, X_k; \Pi|R)$, of the protocol is $\Omega(kt)$, when the inputs $(X_1,\cdots, X_k)$ are distributed uniformly. By standard arguments, the communication cost is at least the information cost~(e.g., see \cite{bar2004information}).
+\end{proof}
+
+Finally, we set $Y$ of size $t$ satisfying
+$\rdisc^{1/6}(Y,\mathcal{R})=\rdisc^{1/6}(t)$, and Theorem~\ref{thm:rand2} is proved.
+
+
+\section{Handling different error norms}\label{app:lp-norm}
+So far we have only studied the $l_\infty$ norm of the error (i.e., maximum error) from an
+$\eps$-approximation.  It is too strong for some applications, and different norms have
+been considered.  The $l_p$ $\eps$-approximation of $X$ with respect to a range
+space $\mathcal{R}$ is a subset $Y\subset X$ if 
+$$\left(\frac{1}{m}\cdot\sum _{r\in \mathcal{R}, X\cap r\, \mathrm{ unique}}\left|\frac{|Y\cap r|}{|Y|} -\frac{|X\cap
+      r|}{|X|}\right|^p\right)^{1/p}\le \eps.$$ 
+
+Theorem~\ref{thm:rand2} can easily be extended to hold for $l_p$ $\eps$-approximations. In
+the proof, any norm will work (actually only triangle inequality is needed).  Here we
+state the following result without going through the details again.
+\begin{theorem}
+Given range space $\mathcal{R}$, if $t$ is a value satisfying  $$\frac{t}{\rdisc_p^{1/6}(t)} = \frac{1}{2\sqrt{k}\eps},$$ any algorithm solving the $l_p$ $\eps$-approximation problem for $\mathcal{R}$ must communicate $\Omega(kt)$ bits.
+\end{theorem}
+
+The lower bound proved in~\cite{alexander1990geometric} for halfspaces actually holds for
+the generalized $l_2$-discrepancy.  Thus, the lower bound listed in Table~\ref{tab:1} for
+computing ($l_\infty$) $\eps$-approximations for halfspaces actually also holds for computing $l_2$
+$\eps$-approximations.
+
+ \begin{corollary}
+ Any randomized algorithm solving the $l_2$ $\eps$-approximation problem for $d$-dimensional halfspaces must communicate $\Omega(k^{1/(d+1)}/\eps^{2d/(d+1)})$ bits.
+ \end{corollary}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End: 
