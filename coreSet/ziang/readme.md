@@ -3,7 +3,7 @@
 Cifar100 with grid washing method.
 ======================================
 
-name | ResNet18 |  DenseNet121 |  MobileNetV2  |  VGG |    MLP    
+name | ResNet18 |  DenseNet121 |  MobileNetV2  |  ShuffleNetG2 |    MLP    
  :-: | :-: | :-: | :-: |  :-: | :-:
  0.1% |  X | X  |  X  |  X  |  X |
  1% | X  | X  |  X  |  X  |  X |
@@ -18,7 +18,7 @@ name | ResNet18 |  DenseNet121 |  MobileNetV2  |  VGG |    MLP
 Cifar100 with random sample method.
 ======================================
 
-name | ResNet18 |  DenseNet121 |  MobileNetV2  |  VGG |    MLP (with one hidden layer of 64 units)   
+name | ResNet18 |  DenseNet121 |  MobileNetV2  |  ShuffleNetG2 |    MLP (with one hidden layer of 64 units)   
  :-: | :-: | :-: | :-: |  :-: | :-:
  0.1% |  20.53% | task0  |  task4  |  X  |  19.09% |
  1% | 38.95%  | task1  |  task5  |  X  |  28.40% |
