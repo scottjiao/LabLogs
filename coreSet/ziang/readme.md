@@ -22,5 +22,5 @@ name | ResNet18 |  DenseNet121 |  MobileNetV2  |  ShuffleNetG2 |    MLP (with on
  :-: | :-: | :-: | :-: |  :-: | :-:
  0.1% |  20.53% | task0  |  task4  |  X  |  19.09% |
  1% | 38.95%  | task1  |  task5  |  X  |  28.40% |
- 10% | task7  | task2  |  task6  | X   | 33.38%  |
+ 10% | 73.21%  | task2  |  task6  | X   | 33.38%  |
 100% |  task8 |  task3 |  task9  | X   | 36.03%  |
