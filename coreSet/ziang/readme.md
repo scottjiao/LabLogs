@@ -18,7 +18,7 @@ name | ResNet152 |  DenseNet201 |  MobileNetV2  |  VGG |    MLP
 Cifar100 with random sample method.
 ======================================
 
-name | ResNet18 |  DenseNet201 |  MobileNetV2  |  VGG |    MLP    
+name | ResNet18 |  DenseNet201 |  MobileNetV2  |  VGG |    MLP (with one hidden layer of 64 units)   
  :-: | :-: | :-: | :-: |  :-: | :-:
  0.1% |  20.53% | X  |  X  |  X  |  19.09% |
  1% | 38.95%  | X  |  X  |  X  |  28.40% |
