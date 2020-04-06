@@ -20,7 +20,7 @@ Cifar100 with random sample method.
 
 name | ResNet18 |  DenseNet121 |  MobileNetV2  |  ShuffleNetG2 |    MLP (with one hidden layer of 64 units)   
  :-: | :-: | :-: | :-: |  :-: | :-:
- 0.1% |  20.53% | 23.90%  |  24.16%  |  X  |  19.09% |
- 1% | 38.95%  | 43.62%  |  task4  |  X  |  28.40% |
- 10% | 73.21%  | task2  |   task5 |  X  | 33.38%  |
+ 0.1% |  20.53% | 23.90%  |  24.16%  |  task0  |  19.09% |
+ 1% | 38.95%  | 43.62%  |  task4  |  task1  |  28.40% |
+ 10% | 73.21%  | task2  |   task5 |  task3  | 33.38%  |
 100% |  92.83% |  92.95% |   92.09% |  task9  | 36.03%  |
