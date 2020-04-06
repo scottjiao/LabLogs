@@ -1,6 +1,6 @@
 
 
-Cifar100 with grid washing method.
+Cifar10 with grid washing method.
 ======================================
 
 name | ResNet18 |  DenseNet121 |  MobileNetV2  |  GoogLeNet |    MLP    
@@ -15,7 +15,7 @@ name | ResNet18 |  DenseNet121 |  MobileNetV2  |  GoogLeNet |    MLP
 
 
 
-Cifar100 with random sample method.
+Cifar10 with random sample method.
 ======================================
 
 name | ResNet18 |  DenseNet121 |  MobileNetV2  |  GoogLeNet |    MLP (with one hidden layer of 64 units)   
