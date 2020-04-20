@@ -1,6 +1,6 @@
 
 
-Cifar10 with grid washing method.
+Cifar10 with geodesic exploring method.
 ======================================
 
 name | ResNet18 |  DenseNet121 |  MobileNetV2  |  GoogLeNet |    MLP    
@@ -21,6 +21,6 @@ Cifar10 with random sample method.
 name | ResNet18 |  DenseNet121 |  MobileNetV2  |  GoogLeNet |    MLP (with one hidden layer of 64 units)   
  :-: | :-: | :-: | :-: |  :-: | :-:
  0.1% |  20.53% | 23.90%  |  24.16%  |  19.84%  |  19.09% |
- 1% | 38.95%  | 43.62%  |  42.34%  |  task1  |  28.40% |
- 10% | 73.21%  | 80.92%  |   task5 |  task3  | 33.38%  |
+ 1% | 38.95%  | 43.62%  |  42.34%  |  50.14%  |  28.40% |
+ 10% | 73.21%  | 80.92%  |   80.97% |  79.46%  | 33.38%  |
 100% |  92.83% |  92.95% |   92.09% |  90.51%  | 36.03%  |
